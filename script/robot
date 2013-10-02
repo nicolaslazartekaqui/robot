@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+require './lib/robot'
+
+args = {}
+
+args[:limit_x], args[:limit_y] = gets.split(" ")
+args[:x], args[:y], args[:direction] = gets.split(" ")
+
+if args.key nil
+  raise "entrada errada"
+end
+
+robot = Robot.new(args[:x], args[:y], args[:direction], args[:limit_x], args[:limit_y])
+
+while(instructions = gets)
+  if instructions.include?('T')
+    trash, x, y = instructions.split(" ")
+    if (x.to_i && y.to_i)
+      robot.teleport(x.to_i, y.to_i)
+    else 
+      raise "entrada errada"
+    end
+  else
+    instructions.split('').each do |instruction|
+      case instruction
+      when "L"
+        robot.left
+      when "R"
+        robot.right
+      when "M"
+        robot.move
+      end
+    end
+  end
+end
+
+puts robot
